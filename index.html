@@ -2,69 +2,88 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Audit-IA | Auditoría Pedagógica Innovar UNTREF</title>
+    <title>Audit-IA | Innovar UNTREF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root { --untref-blue: #003366; --accent-green: #2e7d32; --accent-red: #c62828; }
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-top: 10px solid var(--untref-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .workflow { display: flex; justify-content: space-around; margin-bottom: 30px; font-weight: bold; color: var(--untref-blue); border-bottom: 1px solid #ddd; padding-bottom: 15px; }
-        .field { margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        
-        /* Contenedores con colores institucionales */
-        .negro { border-left: 10px solid #000; }
-        .verde { border-left: 10px solid var(--accent-green); }
-        .rojo { border-left: 10px solid var(--accent-red); }
-        
-        textarea, select, input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        .container { max-width: 950px; margin: auto; background: white; padding: 40px; border-top: 10px solid var(--untref-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: var(--untref-blue); margin-bottom: 5px; }
+        .field { margin-top: 25px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--untref-blue); }
+        textarea, input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .negro { border-left: 8px solid #000; }
+        .verde { border-left: 8px solid var(--accent-green); }
+        .rojo { border-left: 8px solid var(--accent-red); }
         button { background: var(--untref-blue); color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .result-card { margin-top: 30px; padding: 20px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="workflow">
-        <span>1. RELATORÍA</span> ➔ <span>2. AUDITORÍA (Audit-IA)</span> ➔ <span>3. VALIDACIÓN</span>
-    </div>
+    <h1>Audit-IA | Innovar UNTREF</h1>
+    <p>Protocolo de auditoría ética y pedagógica basado en criterios de transparencia, trazabilidad y responsabilidad humana[cite: 1, 2, 5].</p>
 
-    <h1>Audit-IA | Auditoría Pedagógica</h1>
-    <p>Protocolo para el uso transparente y ético de la IA (Basado en criterios CRITERIA y protocolos universitarios).</p>
+    <button onclick="cargarEjemplo()" style="background:#666;">Cargar Caso Ejemplo (Guerra Tecnológica)</button>
 
     <div class="field">
         <label>Título de la Relatoría:</label>
         <input type="text" id="titulo">
-        
-        <label>Modelo IA utilizado:</label>
-        <select id="modelo">
-            <option value="GPT-4o">GPT-4o</option><option value="Gemini-1.5-Pro">Gemini 1.5 Pro</option>
-            <option value="Claude-3.5-Sonnet">Claude 3.5 Sonnet</option>
-            <option value="Perplexity">Perplexity</option><option value="DeepSeek-R1">DeepSeek R1</option>
-        </select>
+        <label>Modelo IA y Origen:</label>
+        <select id="modelo"><option>GPT-4o</option><option>Gemini-1.5-Pro</option><option>Claude-3.5-Sonnet</option><option>Perplexity</option></select>
+        <select id="origen"><option>Recurso Institucional UNTREF</option><option>Externo</option><option>Propio</option></select>
     </div>
 
+    <!-- Secciones del Protocolo -->
     <div class="field negro">
         <label>Idea Central / Hipótesis (Negro - Autoría Propia):</label>
-        <p><small>La IA debe ser un asistente, no un sustituto. Escribe aquí tu reflexión original.</small></p>
-        <textarea id="negro" rows="3"></textarea>
+        <p><small>La autoría implica responsabilidad sobre la veracidad e integridad del trabajo. Debes manifestar tu unidad de estilo[cite: 1, 2].</small></p>
+        <textarea id="negro" rows="3" placeholder="Redacta tu pensamiento original. Recuerda: la IA no posee agencia moral ni autoría[cite: 1, 2]."></textarea>
     </div>
 
     <div class="field verde">
         <label>Catalizador Ético (Verde - Ideas adaptadas):</label>
-        <textarea id="verde" rows="3" placeholder="¿Qué ideas específicas tomaste de la IA y cómo las complementaste/adaptaste a tu pensamiento ético profesional?"></textarea>
+        <p><small>Las ideas no son de la IA, son catalizadores para tu creación. Explica cómo integraste y adaptaste críticamente estos conceptos a tu marco teórico[cite: 1, 7].</small></p>
+        <textarea id="verde" rows="3" placeholder="Explica la transformación pedagógica de las ideas externas: ¿Qué sumaste de tu pensamiento crítico al material generado por IA?[cite: 4, 6]"></textarea>
     </div>
 
     <div class="field">
-        <label>Contenedor de Prompt (¿Qué le pediste a la IA?):</label>
-        <textarea id="prompt" rows="2" placeholder="Pega aquí el prompt que le enviaste a la IA..."></textarea>
+        <label>Contenedor de Prompts (Entrada):</label>
+        <textarea id="prompt" rows="3" placeholder="Copia aquí el historial de prompts enviados. La transparencia permite la replicabilidad y el estudio de los usos de la IA[cite: 1, 7]."></textarea>
     </div>
 
     <div class="field rojo">
         <label>Auditoría Crítica de la IA (Rojo - Output íntegro):</label>
-        <textarea id="rojo" rows="4" placeholder="Pega aquí exactamente lo que la IA te devolvió. Analiza sus sesgos y alucinaciones."></textarea>
+        <p><small>Audita alucinaciones, sesgos o errores factuales. Si el output no es verificado, es una infracción grave de la integridad científica[cite: 1, 4].</small></p>
+        <textarea id="rojo" rows="5" placeholder="Pega aquí la respuesta íntegra de la IA. Debajo de cada párrafo, anota qué sesgos o alucinaciones detectaste[cite: 1, 2]."></textarea>
     </div>
 
-    <button onclick="auditar()">Validar Integridad Académica</button>
+    <button onclick="auditar()">Validar Auditoría Pedagógica</button>
+    <div id="reporte"></div>
+</div>
 
-    <div id="result
+<script>
+    function cargarEjemplo() {
+        document.getElementById('titulo').value = "Guerra Tecnológica: EE.UU. vs China";
+        document.getElementById('negro').value = "La disputa por los semiconductores es una forma de colonialismo digital que redefine la soberanía nacional.";
+        document.getElementById('verde').value = "Integré el concepto de 'cadena de suministro' de la IA, pero lo transformé en un análisis sobre 'soberanía tecnológica' basado en Kusch y autores locales.";
+        document.getElementById('prompt').value = "Analiza el impacto geopolítico de la guerra de chips entre China y EE.UU.";
+        document.getElementById('rojo').value = "IA: 'Los países compiten para mejorar sus mercados'. Auditoría Crítica: Sesgo simplista, ignora la seguridad nacional. Alucinación: La fecha citada es incorrecta, la escalada comenzó antes.";
+    }
+
+    function auditar() {
+        const rojo = document.getElementById('rojo').value.toLowerCase();
+        const esAntifragil = (rojo.includes('sesgo') || rojo.includes('error') || rojo.includes('alucinación'));
+        
+        document.getElementById('reporte').innerHTML = `
+            <div style="margin-top:20px; padding:20px; border-left: 8px solid ${esAntifragil ? 'var(--accent-green)' : 'var(--accent-red)'}; background: #fff; border: 1px solid #ddd;">
+                <h3>Resultado: ${esAntifragil ? 'PROCESO ANTIFRÁGIL' : 'PROCESO FRÁGIL'}</h3>
+                <p>${esAntifragil ? '¡Auditoría profesional exitosa! Has verificado la trazabilidad y los límites éticos.' : 'Advertencia: Para la integridad académica, debes auditar los errores factibles de la IA.'}</p>
+                <div id="qrcode"></div>
+            </div>
+        `;
+        new QRCode(document.getElementById("qrcode"), { text: "Auditoria UNTREF: " + document.getElementById('titulo').value, width: 80, height: 80 });
+    }
+</script>
+</body>
+</html>
