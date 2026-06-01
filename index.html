@@ -3,27 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <title>Audit-IA | Auditoría Pedagógica UNTREF</title>
+    <!-- Librerías -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Audit-IA | Auditoría Pedagógica</h1>
-        <p>Protocolo de integridad para Innovar UNTREF: transparencia y trazabilidad son valores éticos.</p>
+    <div class="container" id="report-container">
+        <header>
+            <div class="logo">UNTREF</div>
+            <h1>Audit-IA | Auditoría Pedagógica</h1>
+            <p>Protocolo de integridad para Innovar UNTREF: transparencia y trazabilidad son valores éticos.</p>
+        </header>
         
-        <input type="text" id="titulo" placeholder="Título de la Relatoría">
-        <div class="field negro"><textarea id="negro" rows="3" placeholder="Idea Central (Propia). Autoría implica responsabilidad."></textarea></div>
-        <div class="field verde"><textarea id="verde" rows="3" placeholder="Catalizador Ético. ¿Cómo adaptaste las ideas de la IA mediante tu juicio crítico?."></textarea></div>
-        <div class="field"><textarea id="prompt" rows="2" placeholder="Prompt original. La transparencia permite la replicabilidad."></textarea></div>
-        <div class="field rojo"><textarea id="rojo" rows="5" placeholder="Auditoría Crítica (Output íntegro). Audita alucinaciones y sesgos."></textarea></div>
+        <div class="actions">
+            <button class="btn-ejemplo" onclick="cargarEjemplo()">Cargar Ejemplo</button>
+        </div>
+
+        <div class="form-group">
+            <label for="titulo">Título de la Relatoría:</label>
+            <input type="text" id="titulo" placeholder="Ej. El impacto de la IA en la educación universitaria">
+        </div>
+
+        <!-- CONTENEDOR NEGRO -->
+        <div class="field negro">
+            <h3>Contenedor Negro: Relatoría Argumentativa</h3>
+            <p class="subtitle">Captura tu esencia crítica. Autoría implica responsabilidad.</p>
+            
+            <label>Idea Central:</label>
+            <textarea id="idea-central" rows="2" placeholder="Idea principal de tu ensayo..."></textarea>
+            
+            <label>Problema del Autor:</label>
+            <textarea id="problema-autor" rows="2" placeholder="¿Qué problema intenta resolver el autor base?"></textarea>
+            
+            <label>Hipótesis:</label>
+            <textarea id="hipotesis" rows="2" placeholder="Tu hipótesis principal..."></textarea>
+            
+            <label>Hipótesis Auxiliares:</label>
+            <textarea id="hipotesis-auxiliares" rows="2" placeholder="Hipótesis secundarias..."></textarea>
+            
+            <label>Conceptos Críticos:</label>
+            <textarea id="conceptos-criticos" rows="2" placeholder="Palabras clave (ej. Entropía, Ética, Sesgos...)"></textarea>
+            
+            <label>Consenso/Disenso con Conclusiones:</label>
+            <textarea id="consenso-disenso" rows="2" placeholder="¿Estás de acuerdo con el marco teórico? ¿Por qué?"></textarea>
+        </div>
+
+        <!-- DECLARACIÓN DE USO PREVIO DE IA -->
+        <div class="field declaracion-uso">
+            <h3>Declaración de Uso de IA</h3>
+            <div class="form-group">
+                <label>¿Utilizaste IA generativa para estructurar o redactar la Relatoría Argumentativa (Contenedor Negro)?</label>
+                <select id="uso-ia-relatoria" class="select-dropdown">
+                    <option value="">Selecciona una opción...</option>
+                    <option value="no">No, la redacté 100% de forma autónoma.</option>
+                    <option value="si_parcial">Sí, como asistente de redacción / lluvia de ideas.</option>
+                    <option value="si_total">Sí, la IA generó la base del texto.</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>¿Qué modelo(s) utilizaste en este proceso previo? (Si aplica)</label>
+                <select id="modelo-usado" class="select-dropdown">
+                    <option value="ninguno">Ninguno / No aplica</option>
+                    <option value="chatgpt">ChatGPT (GPT-3.5 / GPT-4o)</option>
+                    <option value="claude">Claude (Anthropic)</option>
+                    <option value="gemini">Gemini (Google)</option>
+                    <option value="deepseek">DeepSeek</option>
+                    <option value="edugpt">EduGPT</option>
+                    <option value="varios">Múltiples modelos combinados</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CONTENEDOR PROMPT -->
+        <div class="field prompt">
+            <h3>Transparencia: Interacción con la IA</h3>
+            <label>Prompt Original:</label>
+            <textarea id="prompt" rows="2" placeholder="Escribe exactamente el prompt que le diste a la IA..."></textarea>
+        </div>
+
+        <!-- CONTENEDOR ROJO -->
+        <div class="field rojo">
+            <h3>Contenedor Rojo: Auditoría Crítica (Output de IA)</h3>
+            <label>Pega aquí el resultado íntegro de la IA:</label>
+            <textarea id="rojo" rows="5" placeholder="Audita alucinaciones y sesgos. El sistema calculará la entropía y validará citas."></textarea>
+            
+            <div class="auditoria-ia">
+                <h4>Auditoría de Ética de la IA</h4>
+                <p class="subtitle">Identifica el comportamiento del modelo generativo:</p>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="ia-transparencia" value="transparencia"> Transparencia</label>
+                    <label><input type="checkbox" id="ia-sesgo" value="sesgo"> Sesgo explícito</label>
+                    <label><input type="checkbox" id="ia-alucinacion" value="alucinacion"> Alucinación factual</label>
+                    <label><input type="checkbox" id="ia-neutral" value="neutral"> Respuesta neutral</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO DE CONTRASTE Y GENERACIÓN -->
+        <div class="field contraste">
+            <h3>Módulo de Contraste y Generación (Cross-Model Auditing)</h3>
+            <p class="subtitle">Triangulación de Modelos: Envía tu texto a otro modelo para una auditoría experta.</p>
+            
+            <button type="button" id="btn-generar-meta" class="btn-contraste" onclick="generarMetaPromptAnimado()" style="margin-bottom: 15px; width: 100%;">1. Generar Meta-Prompt de Auditoría</button>
+            
+            <label>Meta-Prompt Generado:</label>
+            <textarea id="meta-prompt" rows="4" readonly placeholder="Presiona el botón superior para generar el Meta-Prompt..."></textarea>
+            <button type="button" id="btn-copiar-prompt" class="btn-copiar hidden" onclick="copiarPromptSolo()" style="margin-top: 10px; width: 100%;"><span class="icon">📋</span> Copiar Meta-Prompt</button>
+            
+            <div id="contenedor-modelos" class="hidden" style="margin-top: 15px;">
+                <label>2. Selecciona un modelo para copiar el texto y auditar la respuesta:</label>
+                <div class="btn-group-modelos">
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://chatgpt.com/g/g-68b1ee82a1b481918c46ce0a2b0123aa-edu-gpt')">EduGPT</button>
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://chatgpt.com/')">GPT-4o</button>
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://claude.ai/')">Claude</button>
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://gemini.google.com/')">Gemini</button>
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://www.perplexity.ai/')">Perplexity</button>
+                    <button type="button" class="btn-modelo" onclick="copiarYAbrir('https://chat.deepseek.com/')">DeepSeek</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENEDOR VERDE -->
+        <div class="field verde">
+            <h3>Contenedor Verde: Catalizador Ético</h3>
+            <label>¿Cómo adaptaste las ideas de la IA mediante tu juicio crítico?</label>
+            <textarea id="verde" rows="3" placeholder="Describe tu transformación de ideas, citando los protocolos de ética de la cátedra..."></textarea>
+        </div>
+
+        <!-- MÓDULO DE ÉTICA HUMANA -->
+        <div class="field etica-humana">
+            <h3>Evaluación de Ética Humana</h3>
+            <label>¿Por qué mi juicio humano es superior a la respuesta de la máquina en este caso? ¿Cómo he intervenido el resultado para que sea éticamente responsable?</label>
+            <textarea id="evaluacion-etica" rows="4" placeholder="Argumenta la superioridad de tu análisis humano..."></textarea>
+        </div>
         
-        <button onclick="auditar()">Validar Integridad Académica</button>
+        <div id="alertas-pedagogicas" class="alertas hidden">
+            <h4>Advertencias Pedagógicas:</h4>
+            <ul id="lista-alertas"></ul>
+        </div>
+
+        <!-- DECLARACIÓN ÉTICA VISIBLE -->
+        <div class="declaracion-etica">
+            <h4>Declaración Ética Obligatoria</h4>
+            <p><strong>"La IAG es un recurso institucional. Su uso debe ser transparente, siguiendo normas APA, y nunca debe reemplazar el proceso de aprendizaje autónomo."</strong></p>
+            <label class="checkbox-declaracion">
+                <input type="checkbox" id="declaracion-jurada" onchange="verificarDeclaracion()"> 
+                Declaro bajo responsabilidad académica que este trabajo es una construcción intelectual propia y he auditado los sesgos de la IAG utilizada.
+            </label>
+        </div>
+
+        <button class="btn-validar" onclick="auditar()">Validar Integridad Académica</button>
+        
         <div id="dashboard" style="display:none;">
-            <canvas id="myChart"></canvas>
-            <div id="qr-container"></div>
+            <div class="dashboard-content">
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="certificacion">
+                    <div id="qr-container"></div>
+                    <p class="sello">Sello de Trazabilidad QR</p>
+                    <div class="score-integridad">
+                        <h4>Score de Integridad</h4>
+                        <span id="score-total" class="score-badge">0/100</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="resumen-critico-container" class="resumen-critico">
+                <h4>Resumen Crítico de Auditoría</h4>
+                <p id="resumen-critico-texto"></p>
+            </div>
+            
+            <button class="btn-pdf disabled" id="btn-export-pdf" onclick="generarPDF()" disabled>Exportar a PDF Oficial</button>
         </div>
     </div>
+    
     <script src="audit-logic.js"></script>
     <script src="script.js"></script>
 </body>
