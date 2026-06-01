@@ -1,0 +1,9 @@
+:root { --untref-blue: #003366; --accent-green: #2e7d32; --accent-red: #c62828; }
+body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
+.container { max-width: 900px; margin: auto; background: white; padding: 40px; border-top: 10px solid var(--untref-blue); }
+.field { margin-top: 20px; padding: 20px; border: 1px solid #ddd; }
+.negro { border-left: 10px solid #000; }
+.verde { border-left: 10px solid var(--accent-green); }
+.rojo { border-left: 10px solid var(--accent-red); }
+textarea { width: 100%; border: 1px solid #ccc; box-sizing: border-box; }
+button { background: var(--untref-blue); color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold; }
