@@ -2,64 +2,97 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audit-IA | Innovar UNTREF</title>
-    <link rel="stylesheet" href="style.css"> <!-- Puedes crear este archivo -->
-    <script src="audit-logic.js"></script>
+    <style>
+        /* Estilos Institucionales UNTREF */
+        :root {
+            --untref-blue: #003366;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; background: #f9f9f9; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 30px; border-top: 8px solid var(--untref-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .workflow { display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: bold; color: var(--untref-blue); font-size: 0.9em; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        
+        label { display: block; margin-top: 20px; font-weight: bold; color: var(--untref-blue); }
+        textarea, select, input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        
+        /* Colores de Auditoría */
+        .negro { border-left: 6px solid #000; background: #fafafa; }
+        .verde { border-left: 6px solid var(--accent-green); background: #f1f8f1; }
+        .rojo { border-left: 6px solid var(--accent-red); background: #fff5f5; }
+        
+        button { background: var(--untref-blue); color: white; padding: 15px; border: none; cursor: pointer; width: 100%; margin-top: 25px; font-weight: bold; border-radius: 4px; }
+        button:hover { background: #002244; }
+        
+        .result-card { margin-top: 30px; padding: 20px; border-radius: 4px; border: 1px solid #ddd; }
+    </style>
 </head>
 <body>
+
+<div class="container">
     <div class="workflow">
-        <span>RELATORÍA</span> ➔ <span>AUDITORÍA (Audit-IA)</span> ➔ <span>VALIDACIÓN FINAL</span>
+        <span>1. RELATORÍA INTERACTIVA</span> ➔ <span>2. AUDITORÍA (Audit-IA)</span> ➔ <span>3. VALIDACIÓN FINAL</span>
     </div>
 
-    <div class="card">
-        <h1>Audit-IA: Relatoría Interactiva</h1>
-        
-        <!-- Selección de Origen y Modelo -->
-        <label>Origen del recurso y Modelo:</label>
-        <select id="origen"><option value="Institucional">Institucional</option><option value="Externo">Externo</option></select>
-        <input type="text" id="modelo" placeholder="Nombre del Modelo (Ej: Gemini, Claude)">
+    <h1>Audit-IA | Innovar UNTREF</h1>
+    <p>Herramienta de auditoría pedagógica para asegurar la integridad académica y la antifragilidad en la investigación.</p>
 
-        <!-- Estructura de Relatoría -->
-        <h3>1. Relatoría Argumentativa</h3>
-        
-        <label class="label-negro">Negro: Idea Central e Hipótesis (Autoría Propia)</label>
-        <textarea id="negro"></textarea>
+    <label>Modelo de IA:</label>
+    <select id="modelo">
+        <option value="GPT-4o">ChatGPT (GPT-4o)</option>
+        <option value="Gemini-1.5">Google Gemini 1.5</option>
+        <option value="Claude-3.5">Claude 3.5 Sonnet</option>
+        <option value="Perplexity">Perplexity AI</option>
+    </select>
 
-        <label class="label-verde">Verde: Catalizador Ético (Ideas adaptadas de IA a tu pensamiento)</label>
-        <textarea id="verde" placeholder="Explica cómo tomaste una idea de la IA y la transformaste mediante tu ética profesional en algo nuevo..."></textarea>
+    <label>Origen del recurso:</label>
+    <select id="origen">
+        <option value="Institucional">Recurso Institucional UNTREF</option>
+        <option value="Externo">Aplicación Externa</option>
+    </select>
 
-        <label class="label-rojo">Rojo: Auditoría Crítica de la IA</label>
-        <textarea id="rojo" placeholder="Copia la respuesta de la IA y audita sus sesgos/errores..."></textarea>
+    <label>Negro: Idea Central e Hipótesis (Autoría Propia)</label>
+    <textarea id="negro" class="negro" rows="3"></textarea>
 
-        <button onclick="ejecutarAuditoria()">Ejecutar Auditoría</button>
-    </div>
+    <label>Verde: Catalizador Ético (Adaptación de ideas)</label>
+    <textarea id="verde" class="verde" rows="3" placeholder="Explica cómo adaptaste ideas externas a tu pensamiento..."></textarea>
+
+    <label>Rojo: Auditoría Crítica de la IA</label>
+    <textarea id="rojo" class="rojo" rows="4" placeholder="Copia la respuesta de la IA y audita sus sesgos..."></textarea>
+
+    <button onclick="validar()">Ejecutar Auditoría Antifrágil</button>
 
     <div id="output"></div>
+</div>
 
-    <script>
-        function ejecutarAuditoria() {
-            const data = {
-                negro: document.getElementById('negro').value,
-                verde: document.getElementById('verde').value,
-                rojo: document.getElementById('rojo').value,
-                modelo: document.getElementById('modelo').value,
-                origen: document.getElementById('origen').value
-            };
+<script>
+    function validar() {
+        const negro = document.getElementById('negro').value;
+        const verde = document.getElementById('verde').value;
+        const rojo = document.getElementById('rojo').value;
+        const modelo = document.getElementById('modelo').value;
 
-            const resultado = procesarRelatoria(data);
-            document.getElementById('output').innerHTML = `
-                <div class="card">
-                    <h2>Estado: ${resultado.estado}</h2>
-                    <p>${resultado.feedback}</p>
-                    <pre>
-Prompt Antifrágil: "Analiza mi tesis [${data.negro.substring(0,30)}...]
-que fue catalizada por [${data.verde.substring(0,30)}...] 
-y auditada críticamente frente a ${data.modelo}. 
-¿Qué debilidades lógicas persisten?"
-                    </pre>
-                </div>
-            `;
-        }
-    </script>
+        // Lógica de auditoría: requiere que el estudiante analice los errores (sesgos/hallucinations)
+        const esAntifragil = (rojo.length > 50 && (rojo.includes('error') || rojo.includes('sesgo') || rojo.includes('contradicción')));
+
+        document.getElementById('output').innerHTML = `
+            <div class="result-card" style="border-left: 8px solid ${esAntifragil ? 'var(--accent-green)' : 'var(--accent-red)'}">
+                <h2>Estado: ${esAntifragil ? 'ANTIFRÁGIL' : 'FRÁGIL'}</h2>
+                <p>${esAntifragil ? 'Excelente. Has detectado fallas en la IA y las has usado para refinar tu tesis.' : 'Precaución: Tu auditoría no parece crítica. Debes señalar errores o sesgos de la IA.'}</p>
+                <hr>
+                <p><strong>Prompt Finalizador para copiar y pegar:</strong></p>
+                <pre style="background:#eee; padding:10px; font-size: 0.85em;">
+Analicé mi tesis: "${negro.substring(0,60)}..."
+usando ${modelo}. 
+Detecté que la IA tuvo estos problemas: "${rojo.substring(0,100)}..."
+¿Cómo puedo robustecer mi conclusión considerando que la IA cometió estos errores?
+                </pre>
+            </div>
+        `;
+    }
+</script>
+
 </body>
 </html>
