@@ -2,101 +2,28 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Audit-IA | Auditoría Pedagógica Innovar UNTREF</title>
-    <!-- Librerías de soporte -->
+    <title>Audit-IA | Auditoría Pedagógica UNTREF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root { --untref-blue: #003366; --accent-green: #2e7d32; --accent-red: #c62828; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-top: 10px solid var(--untref-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .workflow { display: flex; justify-content: space-around; margin-bottom: 30px; font-weight: bold; color: var(--untref-blue); border-bottom: 1px solid #ddd; padding-bottom: 15px; }
-        .field { margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        .negro { border-left: 10px solid #000; }
-        .verde { border-left: 10px solid var(--accent-green); }
-        .rojo { border-left: 10px solid var(--accent-red); }
-        textarea, select, input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background: var(--untref-blue); color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        #canvas-area { width: 300px; margin: 20px auto; text-align: center; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="container">
-    <div class="workflow">
-        <span>1. RELATORÍA</span> ➔ <span>2. AUDITORÍA (Audit-IA)</span> ➔ <span>3. VALIDACIÓN FINAL</span>
-    </div>
-
-    <h1>Audit-IA | Auditoría Pedagógica</h1>
-    <p>La transparencia y la trazabilidad son valores éticos de primer orden en la investigación UNTREF[cite: 1, 5, 8].</p>
-
-    <div class="field">
-        <label>Título de la Relatoría:</label>
-        <input type="text" id="titulo">
-        <label>Modelo IA y Origen:</label>
-        <select id="modelo"><option>GPT-4o</option><option>Gemini-1.5-Pro</option><option>Claude-3.5-Sonnet</option><option>DeepSeek-R1</option></select>
-        <select id="origen"><option>Recurso Institucional UNTREF</option><option>Externo</option><option>Propio</option></select>
-    </div>
-
-    <div class="field negro">
-        <label>Idea Central (Negro - Autoría Propia):</label>
-        <textarea id="negro" rows="3" placeholder="La autoría implica responsabilidad sobre la veracidad del trabajo[cite: 1, 2]."></textarea>
-    </div>
-
-    <div class="field verde">
-        <label>Catalizador Ético (Verde - Ideas adaptadas):</label>
-        <textarea id="verde" rows="3" placeholder="Transformación ética de ideas externas[cite: 6, 8]."></textarea>
-    </div>
-
-    <div class="field">
-        <label>Contenedor de Prompt:</label>
-        <textarea id="prompt" rows="2" placeholder="Prompt original de entrada[cite: 1, 7]."></textarea>
-    </div>
-
-    <div class="field rojo">
-        <label>Auditoría Crítica de la IA (Rojo - Output íntegro):</label>
-        <textarea id="rojo" rows="4" placeholder="Auditoría de alucinaciones y sesgos[cite: 1, 4, 7]."></textarea>
-    </div>
-
-    <button onclick="auditar()">Ejecutar Validación de Integridad</button>
-
-    <div id="result-area" style="display:none; text-align:center;">
-        <div id="canvas-area"><canvas id="myChart"></canvas></div>
-        <div id="qrcode"></div>
-        <button onclick="exportarPDF()" style="background:var(--accent-green);">Descargar Certificado de Auditoría (PDF)</button>
-        <button onclick="descargarJSON()" style="background:#666;">Descargar Analítica (.JSON)</button>
-    </div>
-</div>
-
-<script>
-    function auditar() {
-        document.getElementById('result-area').style.display = 'block';
-        const negro = document.getElementById('negro').value.length;
-        const rojo = document.getElementById('rojo').value.length;
+    <div class="container">
+        <h1>Audit-IA | Auditoría Pedagógica</h1>
+        <p>Protocolo de integridad para Innovar UNTREF: transparencia y trazabilidad son valores éticos.</p>
         
-        // Gráfico de Autoría
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, { type: 'doughnut', data: { labels: ['Autoría', 'IA'], datasets: [{ data: [negro, rojo], backgroundColor: ['#000', '#c62828'] }] } });
-
-        // QR
-        new QRCode(document.getElementById("qrcode"), { text: "Auditoria UNTREF: " + document.getElementById('titulo').value, width: 100, height: 100 });
-    }
-
-    function exportarPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.text("Certificado de Auditoria - Innovar UNTREF", 10, 10);
-        doc.text("Validación Pedagógica Completada", 10, 20);
-        doc.save("Certificado_Auditoria.pdf");
-    }
-
-    function descargarJSON() {
-        const data = { titulo: document.getElementById('titulo').value, negro: document.getElementById('negro').value, fecha: new Date() };
-        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'analitica.json'; a.click();
-    }
-</script>
+        <input type="text" id="titulo" placeholder="Título de la Relatoría">
+        <div class="field negro"><textarea id="negro" rows="3" placeholder="Idea Central (Propia). Autoría implica responsabilidad."></textarea></div>
+        <div class="field verde"><textarea id="verde" rows="3" placeholder="Catalizador Ético. ¿Cómo adaptaste las ideas de la IA mediante tu juicio crítico?."></textarea></div>
+        <div class="field"><textarea id="prompt" rows="2" placeholder="Prompt original. La transparencia permite la replicabilidad."></textarea></div>
+        <div class="field rojo"><textarea id="rojo" rows="5" placeholder="Auditoría Crítica (Output íntegro). Audita alucinaciones y sesgos."></textarea></div>
+        
+        <button onclick="auditar()">Validar Integridad Académica</button>
+        <div id="dashboard" style="display:none;">
+            <canvas id="myChart"></canvas>
+            <div id="qr-container"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
