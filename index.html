@@ -2,21 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Audit-IA | Auditoría Pedagógica UNTREF</title>
-    <!-- Librerías de exportación y QR -->
+    <title>Audit-IA | Auditoría Pedagógica Innovar UNTREF</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root { --untref-blue: #003366; --accent-green: #2e7d32; --accent-red: #c62828; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
         .container { max-width: 900px; margin: auto; background: white; padding: 40px; border-top: 10px solid var(--untref-blue); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .workflow { display: flex; justify-content: space-around; margin-bottom: 30px; font-weight: bold; color: var(--untref-blue); border-bottom: 1px solid #ddd; padding-bottom: 15px; }
         .field { margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        textarea, select, input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Contenedores con colores institucionales */
+        .negro { border-left: 10px solid #000; }
+        .verde { border-left: 10px solid var(--accent-green); }
+        .rojo { border-left: 10px solid var(--accent-red); }
+        
+        textarea, select, input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; box-sizing: border-box; }
         button { background: var(--untref-blue); color: white; padding: 15px; border: none; width: 100%; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .result-card { margin-top: 30px; padding: 20px; border-radius: 4px; border: 1px solid #ddd; }
-        .buttons-row { display: flex; gap: 10px; margin-top: 15px; }
+        .result-card { margin-top: 30px; padding: 20px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -27,81 +30,41 @@
     </div>
 
     <h1>Audit-IA | Auditoría Pedagógica</h1>
-    <p>Validación de antifragilidad: contraste de pensamiento propio vs. IA.</p>
+    <p>Protocolo para el uso transparente y ético de la IA (Basado en criterios CRITERIA y protocolos universitarios).</p>
 
     <div class="field">
-        <label>Modelo IA y Origen:</label>
-        <select id="modelo">
-            <option value="GPT-4o">GPT-4o (OpenAI)</option>
-            <option value="Gemini-1.5-Pro">Gemini 1.5 Pro (Google)</option>
-            <option value="Claude-3.5">Claude 3.5 Sonnet (Anthropic)</option>
-            <option value="Perplexity">Perplexity AI</option>
-        </select>
-        <select id="origen">
-            <option value="Institucional">Recurso Institucional UNTREF</option>
-            <option value="Externo">Aplicación Externa</option>
-            <option value="Propio">Recurso Propio</option>
-        </select>
-    </div>
-
-    <div class="field">
-        <label>Título del Ensayo:</label>
+        <label>Título de la Relatoría:</label>
         <input type="text" id="titulo">
-        <label>Idea Central (Negro):</label>
-        <textarea id="negro" rows="3"></textarea>
-        <label>Catalizador Ético (Verde):</label>
-        <textarea id="verde" rows="3" placeholder="¿Cómo adaptaste las ideas externas a tu pensamiento?"></textarea>
-        <label>Auditoría Crítica de IA (Rojo):</label>
-        <textarea id="rojo" rows="4" placeholder="Copia la IA y analiza sesgos o errores..."></textarea>
-    </div>
-
-    <button onclick="generarValidacion()">Ejecutar Validación y Generar Evidencia</button>
-
-    <div id="result-area" class="result-card" style="display:none;">
-        <div id="qrcode" style="display:flex; justify-content:center; margin-bottom:15px;"></div>
-        <div id="resultado-texto"></div>
-        <div class="buttons-row">
-            <button onclick="descargarJSON()" style="background: #666;">Descargar .JSON (Analítica)</button>
-            <button onclick="exportarPDF()" style="background: var(--accent-green);">Exportar PDF Formal</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    function generarValidacion() {
-        const datos = {
-            titulo: document.getElementById('titulo').value,
-            modelo: document.getElementById('modelo').value,
-            negro: document.getElementById('negro').value,
-            rojo: document.getElementById('rojo').value
-        };
-
-        const esAntifragil = (datos.rojo.length > 50 && (datos.rojo.includes('sesgo') || datos.rojo.includes('error')));
         
-        document.getElementById('result-area').style.display = 'block';
-        document.getElementById('resultado-texto').innerHTML = `
-            <h3>Dictamen: ${esAntifragil ? 'PROCESO ANTIFRÁGIL' : 'PROCESO FRÁGIL'}</h3>
-            <p>${esAntifragil ? 'Auditoría exitosa: Has detectado fallas en la IA.' : 'Debes auditar los fallos o sesgos específicos de la IA.'}</p>
-        `;
+        <label>Modelo IA utilizado:</label>
+        <select id="modelo">
+            <option value="GPT-4o">GPT-4o</option><option value="Gemini-1.5-Pro">Gemini 1.5 Pro</option>
+            <option value="Claude-3.5-Sonnet">Claude 3.5 Sonnet</option>
+            <option value="Perplexity">Perplexity</option><option value="DeepSeek-R1">DeepSeek R1</option>
+        </select>
+    </div>
 
-        document.getElementById("qrcode").innerHTML = "";
-        new QRCode(document.getElementById("qrcode"), { text: datos.titulo + " | Auditoría Validada", width: 100, height: 100 });
-    }
+    <div class="field negro">
+        <label>Idea Central / Hipótesis (Negro - Autoría Propia):</label>
+        <p><small>La IA debe ser un asistente, no un sustituto. Escribe aquí tu reflexión original.</small></p>
+        <textarea id="negro" rows="3"></textarea>
+    </div>
 
-    function descargarJSON() {
-        const data = { titulo: document.getElementById('titulo').value, negro: document.getElementById('negro').value, rojo: document.getElementById('rojo').value };
-        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'audit_ia_data.json'; a.click();
-    }
+    <div class="field verde">
+        <label>Catalizador Ético (Verde - Ideas adaptadas):</label>
+        <textarea id="verde" rows="3" placeholder="¿Qué ideas específicas tomaste de la IA y cómo las complementaste/adaptaste a tu pensamiento ético profesional?"></textarea>
+    </div>
 
-    function exportarPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        doc.text("Relatoria: " + document.getElementById('titulo').value, 10, 10);
-        doc.text("Estado de Auditoria: Innovar UNTREF", 10, 20);
-        doc.save("Relatoria_AuditIA.pdf");
-    }
-</script>
-</body>
-</html>
+    <div class="field">
+        <label>Contenedor de Prompt (¿Qué le pediste a la IA?):</label>
+        <textarea id="prompt" rows="2" placeholder="Pega aquí el prompt que le enviaste a la IA..."></textarea>
+    </div>
+
+    <div class="field rojo">
+        <label>Auditoría Crítica de la IA (Rojo - Output íntegro):</label>
+        <textarea id="rojo" rows="4" placeholder="Pega aquí exactamente lo que la IA te devolvió. Analiza sus sesgos y alucinaciones."></textarea>
+    </div>
+
+    <button onclick="auditar()">Validar Integridad Académica</button>
+
+    <div id="result
