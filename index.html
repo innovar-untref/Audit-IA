@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Audit-IA | UNTREF</title>
+    <style>
+        /* Paleta UNTREF / Innovar */
+        :root {
+            --untref-blue: #003366; /* Azul Institucional */
+            --untref-gray: #f4f4f4;
+            --accent-green: #2e7d32;
+            --accent-red: #c62828;
+        }
+
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.6; background-color: #ffffff; margin: 0; padding: 20px; }
+        .card { max-width: 800px; margin: auto; border: 1px solid #ddd; padding: 30px; border-top: 5px solid var(--untref-blue); }
+        h1 { color: var(--untref-blue); border-bottom: 2px solid var(--untref-blue); padding-bottom: 10px; }
+        
+        label { font-weight: bold; display: block; margin-top: 15px; color: var(--untref-blue); }
+        textarea, select, input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        button { background: var(--untref-blue); color: white; padding: 12px 25px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        button:hover { background: #002244; }
+        
+        .result { padding: 20px; border-radius: 4px; margin-top: 25px; border: 1px solid #ddd; }
+        .Fragil { border-left: 8px solid var(--accent-red); background: #fff5f5; }
+        .Antifragil { border-left: 8px solid var(--accent-green); background: #f1f8f1; }
+        
+        code { background: #eee; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Audit-IA | Innovar UNTREF</h1>
+        <p>Validador pedagógico de integridad y ética en el uso de Inteligencia Artificial.</p>
+        
+        <label>Origen del recurso:</label>
+        <select id="origen">
+            <option value="">-- Seleccione origen --</option>
+            <option value="institucional">Recurso Institucional UNTREF</option>
+            <option value="externo">Modelo / Aplicación Externa</option>
+        </select>
+
+        <label>Nombre del Modelo / Herramienta:</label>
+        <input type="text" id="modelo" placeholder="Ej: GPT-4o, Claude 3.5">
+
+        <label>Ideas Centrales (Negro - Autoría Propia):</label>
+        <textarea id="negro" rows="3"></textarea>
+        
+        <label>Interacción IA / Auditoría (Rojo):</label>
+        <textarea id="rojo" rows="4" placeholder="Describe los errores, sesgos o hallazgos detectados al auditar la IA..."></textarea>
+
+        <button onclick="validar()">Generar Auditoría de Integridad</button>
+    </div>
+
+    <div id="output" style="max-width: 800px; margin: 20px auto;"></div>
+
+    <script>
+        function validar() {
+            const modelo = document.getElementById('modelo').value;
+            const auditoria = document.getElementById('rojo').value;
+            
+            if(!modelo || auditoria.length < 50) {
+                alert("Por favor, declare el modelo utilizado y complete una auditoría reflexiva (min. 50 caracteres).");
+                return;
+            }
+
+            const categoria = auditoria.length > 150 ? "Antifragil" : "Fragil";
+            
+            document.getElementById('output').innerHTML = `
+                <div class="result ${categoria}">
+                    <h3>Resultado de Evaluación: ${categoria.toUpperCase()}</h3>
+                    <p><strong>Herramienta auditada:</strong> ${modelo}</p>
+                    <hr>
+                    <p><strong>Prompt Finalizador para IA externa:</strong></p>
+                    <pre style="background:#fff; padding:15px; border:1px solid #ccc; font-size: 0.9em;">
+Declaración de uso: He utilizado ${modelo} (${document.getElementById('origen').value}) para este trabajo. 
+He realizado una auditoría crítica detectando los siguientes sesgos/errores: 
+"${auditoria.substring(0,200)}..."
+
+Basado en esta auditoría, ¿cómo puedo refutar mi propia hipótesis para hacer este ensayo más riguroso? 
+Por favor, responde bajo una lógica de evaluación antifrágil, donde el error de la IA sea el punto de partida de la mejora.
+                    </pre>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
